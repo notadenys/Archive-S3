@@ -1,0 +1,118 @@
+Type Pile[E]
+Operations:
+	ConsVide : -> Pile[E]
+	Empiler  : E -> Pile[E]
+	Depiler  : Pile[E] -> Pile[E]
+	Sommet   : Pile[E] -> E
+	EstVide  : Pile[E] -> booleen
+Axiomes:
+	EstVide(ConsVide()) = vrai
+	EstVide(Empiler(e, p)) = faux
+	Sommet(Empiler(e, p)) = e
+	Depiler(Empiler(e, p) = p
+Pre-conditions:
+	Sommet(p) defini ssi non EstVide(p)
+
+
+Type File[E]/Queue/FIFO (First In First Out)
+Operations:
+	ConsVide : -> File[E]
+	Enfiler  : E -> File[E]
+	Defiler  : File[E] -> File[E]
+	Tete     : File[E] -> E
+	EstVide  : File[E] -> booleen
+Axiomes:
+	EstVide(l) => Tete(Enfiler(e,l)) = e
+	non EstVide(l) => Tete(Enfiler(e,l)) = Tete(l)
+	EstVide(l) => Defiler(Enfiler(e,l)) = ConsVide()
+	non EstVide(l) => Defiler(Enfiler(e,l)) = Enfiler(e,Defiler(l))
+	EstVide(ListeVide) = vrai
+	EstVide(Enfiler(e,l)) = faux
+Pre-conditions:
+	Tete(l) defini ssi non EstVide(l)
+	Defiler(l) défini ssi non EstVide(l)
+	
+
+Type Arbre[E]
+Operations
+	ConsVide : -> Arbre[E]
+	Cons     : E x Arbre[E] x Arbre[E] -> Arbre[E]
+	Racine   : Arbre[E] -> E
+	FG       : Arbre[E] -> Arbre[E]
+	FD       : Arbre[E] -> Arbre[E]
+	EstVide  : Arbre[E] -> booleen
+Préconditions :
+	Racine(l) défini ssi non EstVide(l)
+	FG(l) défini ssi non EstVide(l)
+	FD(l) défini ssi non EstVide(l)
+Axiomes :
+	Racine(Cons(e,fg,fd)) = e
+	FG(Cons(e, fg,fd)) = fg
+	FG(Cons(e,fg,fd)) = fd
+	EstVide(ConsVide()) = vrai
+	EstVide(Cons(e,fg,fd)) = faux
+	
+
+fonction somme(arb : Arbre[entier]) : entier
+	debut
+		s <- 0
+		si EstVide(arb) alors
+			s <- 0
+		sinon
+			s <- s + Racine(arb)
+			s <- s + somme(FG(arb))
+			s <- s + somme(FD(arb))
+		fsi
+		retourner s
+	fin
+
+fonction taille(arb : Arbre[entier]) : entier
+	debut
+		t <- 0
+		si non EstVide(arb) alors
+			t <- t + 1
+			t <- t + taille(FG(arb))
+			t <- t + taille(FD(arb))
+		fsi
+		retourner t
+	fin
+
+fonction taille(arb : Arbre[entier]) : entier
+	debut
+		si non EstVide(arb) alors
+			retourner 1 + taille(FG(arb)) + taille(FD(arb))
+		fsi
+		retourner 0
+	fin
+
+fonction max(arb : Arbre[entier]) : entier
+	debut
+		si non EstVide(arb) alors
+			retourner MAX(Racine, MAX(maximum(FG(arb)), maximum(FD(arb))))
+		fsi
+		retourner 0
+	fin
+		
+fonction hauteur(arb : Arbre[entier]) : entier
+	debut
+		h <- 0
+		si non EstVide(arb) alors
+			hfg <- hauteur(FG(arb))
+			hfd <- hauteur(FD(arb))
+			h <- MAX(hfg, hfd) + 1
+		fsi
+		retourner h
+	fin
+	
+fonction nbFeuilles(arb : Arbre[entier]) : entier
+	debut
+		nb <- 0
+		si non EstVide(arb) alors
+			si non EstVide(FG(arb)) et EstVide(FD(arb)) alors
+				nb <- 1
+			sinon
+				nb <- nbFeuilles(FG(arb)) + nbFeuilles(FD(arb))
+			fsi
+		fsi
+		retourner nb
+	fin

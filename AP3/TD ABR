@@ -1,0 +1,19 @@
+fonction prec(ABR[entier], C : entier, dernier : entier) entier
+deb
+	si non estVide(arb) alors
+		racine <- Racine(arb)
+		si C < Racine alors
+			retourner prec(FG(arb), c, dernier)
+		fsi
+		si C > racine alors
+			retourner prec(FD(arb), c, Racine(arb))
+		fsi
+		si C == racine alors
+			si non estVide(FG(arb)) alors
+				retourner max(FG(arb))
+			sinon
+				retourner dernier
+			fsi
+		fsi
+	fsi
+ff

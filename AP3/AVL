@@ -1,0 +1,32 @@
+procedure rotationDroite(arb: ABR[E])
+deb
+	fg <- FG(arb)
+	ModifFG(arb, FD(fg)
+	ModifFD(fg, arb)
+	arb <- fg
+fin
+
+procedure inserer(arb : AVL(E), val : entier)
+deb
+	Si EstVide(arb) Alors
+		arb <- Cons(val, ConsVide(), ConsVide())
+    Sinon
+		Si Racine(arb) > val Alors
+        	fg <- FG(arb)
+    		inserer(fg, val)
+            ModifFG(arb, fg)
+    	Sinon
+         	fd <- FD(arb)
+         	inserer(fd, val)
+          	ModifFD(arb, fd)
+      	Finsi
+       	fe <- hauteur(FG(arb)) - hauteur(FD(arb))
+       	si fe < -1 et val > Racine(FD(arb)) alors
+       		rotationGauche(arb)
+       	fsi
+       	si fe <-1 et val <= Racine(FD(arb)) alors
+       		fd = FD(arb)
+       		rotationDroite(fd)
+       		ModifFD(arb, fd)
+       		rotationGauche(arb)
+    Finsi

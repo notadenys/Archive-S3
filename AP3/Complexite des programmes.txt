@@ -1,0 +1,81 @@
+TD
+1-1
+données = tableau
+taille des données = N
+Pire cas: val not in tab ou val = tab[N-1]
+Nombre d'executions(pire cas) = C(N)=2N+3 (+4 si retour est +1)
+Complexite asymptotique = C(N) Є O(N): k = 3, N0 = 4
+
+1-3
+fonction somme_pos(tab : tableau d'entiers, N : entier)
+	deb
+	somme = 0 //1
+	pour  i de 0 a N faire
+		si tab[i] >= 0 alors  //2
+			somme <- somme + tab[i] 
+		fsi
+	ffor
+	retour somme
+ff
+
+données = tableau
+taille des données = N
+Pire cas: tout les elements sont negatives
+Nombre d'executions(pire cas) = C(N)=2N+3
+Complexite asymptotique = C(N) Є O(N): k = 3, N0 = 3
+
+1-4
+procedure afficheDivision(N : entier)
+	debut
+	tant que N >= 1 faire
+		afficher(N)
+		N <- N/2
+	ftq
+	afficher(0)
+	fin
+	
+données = entier
+taille des données = log2(N)
+Pire cas: tout les elements sont negatives
+Nombre d'executions(pire cas) = C(N)=log2(N)
+Complexite asymptotique = C(N) Є O(N): k = 2, N0 = 1
+
+
+CM
+procedure inverser(tab : tableau d'entiers[N], N : entier]
+	debut
+	pour i de 0 a (N-1)/2 faire
+		temp <- tab[i]
+		tab[i] <- tab[N-1-i]
+		tab[N-1-i] <- temp
+	fp
+	ff
+
+procedure inverserRecursive(tab : tableau d'entiers[N], N : entier, deb : entier, fin : entier]
+	debut
+	si deb >= fin alors
+		retourner
+	sinon
+		temp = tab[deb]
+		tab[deb] = tab[fin]
+		tab[fin] = temp
+		inverser(tab, N, deb+1, fin-1)
+	fsi
+	ff
+	
+	
+TD
+1-6
+fonction prodMat(A, B : Matrice, N, Ha, Lb : entier) : Matrice
+	deb
+	mat <- Matrice //1
+	pour i de 0 a Ha-1 faire  //Ha*(Lb*(N+2)+1)+2
+		pour j de 0 a Lb-1 faire // Lb*(N+2)+1
+			mat[i][j] <- 0 //1
+			pour c de 0 a N-1  // N+1
+				mat[i][j] <- mat[i][j] + (A[i][c]*B[c][j]) // 1
+			fp
+		fp
+	fp
+	retourn mat
+ff

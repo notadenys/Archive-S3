@@ -1,0 +1,52 @@
+fonction ieme(arb : ABR, i : entier) : Personne
+deb
+	index_precedent <- 0
+	index <- taille(FG(arb)) + 1
+	tant que !estVide(arb) faire
+		si index = i alors
+			retourner Racine(arb)
+		sinon
+			si index > i alors
+				arb <- FG(arb)
+			sinon
+				index_precedent <- index_precedent + taille(FG(arb)) + 1
+				arb <- FD(arb)
+			fsi
+			index <- index_precedent + taille(FG(arb)) + 1
+		fsi
+	ftq
+	retourner PersonneInvalide🤕️
+ff
+
+fonction chercher(arb : ABRR, date : entier) : entier
+deb
+	si estVide(arb) alors
+		retourner 0
+	fsi
+	si Racine(arb).date = date alors
+		retourner Racine(arb).rang
+	fsi
+	si Racine(arb).date > date alors
+		si estVide(FG(arb)) alors
+			retourner Racine(arb).rang - 1
+		sinon
+			retourner chercher(FG(arb), date)
+		fsi
+	fsi
+	si estVide(FD(arb)) alors
+		retourner Racine(arb).rang
+	sinon
+		retourner chercher(FD(arb), date)
+	fsi
+fin
+
+fonction taille(A:ABRR[E]) : entier
+deb
+	si estVide(arb) alors
+		retourner 0
+	fsi
+	si estVide(FD(arb)) alors
+		retourner FD(arb).rang
+	fsi
+	retourner taille(FD(arb))
+fin

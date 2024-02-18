@@ -1,0 +1,63 @@
+Exo 1
+1.
+fonction sup_que_somme(l1 : Liste) : Liste
+debut
+l2 = ConsVide()
+somme = 0
+tant que non EstVide(l1) faire
+	si Tete(l1) > somme alors
+		l2 <- Cons(Tete(l1), l2)
+	fsi
+	somme <- somme + Tete(l1)
+	l1 <- Reste(l1)
+ftq
+retourner l2
+ff
+
+2.
+fonction nFois(V, N : entier) : Liste
+debut
+	l = ConsVide()
+	pour i de 0 a N-1 faire
+		l <- Cons(V, l)
+	fpour
+	retourner l
+ff
+
+procedure sup_neg(l : liste)
+debut
+	temp <- l
+	precTemp <- ConsVide()
+	tant que non EstVide(l) faire
+		si Tete(temp) < 0 alors
+			aDetruire <- temp
+			temp <- Reste(temp)
+			ModifReste(aDetruire, ConsVide)
+			Liberer(aDetruire)
+			si EstVide(precTemp) alors
+				L <- temp
+			sinon
+				ModifReste(preTemp, Temp)
+			fsi
+		sinon
+			precTemp <- temp
+			temp <- Reste(temp)
+		fsi
+	ftq
+ff
+
+procedure sup_neg(l : liste)
+debut
+	si non estVide(l) alors
+		temp <- Reste(l)
+		sup_neg(temp)
+		si Tete(l) < 0 alors
+			aDetruire <- l
+			ModifReste(aDetruire, ConsVide())
+			Liberer(aDetruire)
+			l <- temp
+		sinon
+			ModifReste(L, temp)
+		fsi
+	fsi
+ff

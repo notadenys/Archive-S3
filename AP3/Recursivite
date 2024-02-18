@@ -1,0 +1,67 @@
+TD
+2-1
+fonction chemin(Mat : tableau de boolean[N][N], N : entier, 
+		ldep, cdep, larr, carr : entier, chem : liste[(entier, entier)]) : booleen
+	deb
+	chem <- ConsVide()
+	si (ldep = larr) et (cdep = carr) alors
+		trouve <- vrai
+		chem <- Cons((ldep, cdep), chem)
+	sinon
+		trouve <- faux
+		Mat[ldep, cdep] <- faux
+		si cdep < N-1 et Mat[ldep, cdep+1] alors
+			trouve <- chem(mat, N, ldep, cdep+1, larr, carr, chem)	
+		fsi
+		si non trouve et cdep > 0 et mat[ldep, cdep - 1] Alors
+			trouve <- chemin(mat, N, ldep, cdep-1, larrive, carrive, chem)
+		fsi
+		
+		// blablabla
+		
+		si trouve = vrai Alors
+		      chem <- Cons((ldep, cdep), chem)
+		      retourne trouve
+		fsi
+	fsi
+	fin
+
+2-2
+fonction NCID(Liste[E]) : entier
+	deb
+	si EstVide(L) alors
+		res <- 0
+	sinon
+		si EstVide(Reste(L)) alors
+			res <- 1
+		sinon
+			intern = NCID(Reste(L))
+			si Tete(L) = Tete(Reste(L)) alors
+				res <- intern + 1
+			sinon
+				res <- 1
+			fsi
+		fsi
+	fsi
+	retourner res
+	fin
+
+fonction LPLSL(Liste[E]) : entier
+	deb
+	si EstVide(L) alors
+		res <- 0
+	sinon
+		si EstVide(Reste(L)) alors
+			res <- 1
+		sinon
+			ncid <- NCID(L)
+			lplsl <- LPLSL(Reste(L))
+			si ncid > lplsl alors
+				retourner ncid
+			sinon
+				retourner lplsl
+			fsi
+		fsi
+	fsi
+	retourner res
+	fin

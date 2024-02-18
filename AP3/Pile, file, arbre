@@ -1,0 +1,131 @@
+#################################################	03.10.2023
+Type 	Pile[e] (Stack / LIFO)
+
+Operations :
+	ConsVide : -> Pile[e]
+	Empiler : e -> Pile[e]
+	Depiler : Pile[e] -> Pile[e]
+	Sommet  : Pile[e] -> e
+	EstVide : Pile[e] -> booleen
+	
+Axiomes :
+	EstVide(CasVide()) = vrai
+	EstVide(Empiler()) = faux
+	Sommet(Empiler(e, p)) = e (just get top element)
+	Depiler(Empiler(e, p)) = p (just delete top element)
+	
+Pre-conditions :
+	Sommet(p) defini ssi non EstVide(p)
+	Depiler(p) defini ssi non EstVide(p)
+
+#################################################
+
+Type : 	File[e] (Queue / FIFO)
+
+Operations :
+	ConsVide : -> File[e]
+	Enfiler : e -> File[e]
+	Depiler : File[e] -> Pile[e]
+	Tete  	: File[e] -> e
+	EstVide : File[e] -> booleen
+	
+Axiomes :
+	EstVide(l)     -> Tete(Enfiler(e,l)) = e
+	non EstVide(l) -> Tete(Enfiler(e,l)) = Tete(l)
+	EstVide(l)     -> Defiler(Enfiler(e,l)) = ConsVide()
+	non EstVide(l) -> Defiler(Enfiler(e,l)) = Enfiler(e,Defiler(l))
+	EstVide(ListeVide) = vrai
+	EstVide(Enfiler(e,l)) = faux
+	Tete(Enfiler(e,p)) = l si estVide(p)
+	
+	
+Pre-conditions :
+	Tete(1) defini ssi non EstVide(1)
+	Defiler(l) defini ssi non EstVide(l)
+	
+#################################################
+
+Type :	Arbre[e]
+	
+Operations :
+	ConsVide : -> Arbre[e]
+	Cons     : -> E * Arbre[e] * Arbre[e] -> Arbre[e]
+	Racine   : -> Arbre[e] -> e
+	
+		FG(FG(Cons(7, (Cons(3, CasVide(), ConsVide()), Cons(5, ConsVide(), ConsVide())))))		_(3)_
+	FG      : Arbre[e] -> Arbre[e]           							       /     \
+	FD      : _______ ______                 	      						     (5)    (⊥)
+	stVide  : Arbre[e] -> booleen									     / \     / \
+													   (⊥)(⊥) (⊥)(⊥)
+Axiomes : 
+	EstVide(ConsVide)) = vrai
+	Racine(e, fg, fd)												   
+	
+	
+Fonction somme (arbre : Arbre[entier]) : entier
+Debut
+	 somme <- 0
+	 Tant que EstVide(Racine(Arbre)) = faux Fair 
+	 	somme <- somme + Racine(Arbre[e])
+	 	Arbre <- Racine[e]
+	 Fintantque
+	 retourner somme
+Fin 
+
+Fonction somme (arbre : Arbre[entier]) : entier
+	s <- 0
+	Si nonEstVide(arb) Alors
+		s <- 0
+	Sinon
+		s <- s + Racine(Arbre)
+		s <- s + somme(FG(Arbre))
+		s <- s + somme(FD(Arbre))
+	Finsi
+	retourner s
+Fin
+
+Fonction taille (arbre : arbre[entier]) : entier
+	t <- 0
+	Si nonEstVide(arb) Alors
+		t <- 0
+	Sinon
+		t <- t + 1
+		t <- t + taille(FG(Arbre))
+		t <- t + taille(FD(Arbre))
+	Finsi
+	retourner t
+Fin
+
+Fonction Max (arbre : Arbre[entier]) : entier
+	max <- 0
+	Si nonEstVide(arb) Alors
+		max <- 0
+	Sinon
+		max <- racine(arbre)
+		Si max > Racine(FD(Arbre) Alors
+		...
+		
+Fonction hauteur (arb : Arbre[e]) : entier
+Debut
+	h <- 0
+	Si non EstVide(arb) Alors
+		hfg <- hauteur(FG(arb))
+		hfd <- hauteur(FD(arb))
+		h <- max(hfg, hfd) + 1
+	Finsi
+	retiurnter h
+Fin
+	
+Fonction nbFeuills(arb : Arbre[entier]) : entier
+Debut
+	nb <- 0
+	Si non EstVide(arb)
+		Si EstVide(FG(arb)) et EstVide(FD(arb)) Alors
+			nb <- 1
+		Sinon
+			nb <- nbFeuilles(FG(arb)) + nbFeuilles(FD(arb))
+		Finsi
+	Finsi
+	retourner nb
+Fin
+	

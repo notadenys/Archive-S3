@@ -1,0 +1,120 @@
+Type: ArbreBinaire[E]
+Operations:
+ConsVide : -> ArbreBinaire[E]
+Cons     : E x ArbreBinaire[E] -> ArbreBinaire[E]
+Racine   : ArbreBinaire[E] -> E
+FG       : ArbreBinaire[E] -> ArbreBinaire[E]
+FD       : ArbreBinaire[E] -> ArbreBinaire[E]
+
+
+fonction estListe(ArbreBinaire[E] a) : booleen
+	deb
+		si estVide(a) alors
+			retourner vrai
+		fsi
+		si estVide(FG(a)) alors
+			retourner estListe(FD(a))
+		fsi
+		si estVide(FD(a)) alors
+			retourner estListe(FG(a))
+		fsi
+		retourner faux
+	ff
+Taille : N
+Complexite: C(N) = 1 + 1 + 1 + C(N-1)
+	    C(N) = 3 + C(N-1)
+	    C(0) = 2
+	    C(N) = 3N + 2 Є O(N)
+
+fonction evaluer(val : reel, arb : AB[Elem]) : reel
+Debut
+ |  racine <- Racine(arb)
+ |  Selon Nature(racine) Faire
+ |   |  Varible : retourner val
+ |   |  Constante : retourner Valeur(racine)
+ |   |  Binaire : 
+ |   |     dg <- deriver(FG(arb))
+ |   |     vg <- evaluer(val, FG(arb))
+ |   |     dd <- deriver(FD(arb))
+ |   |     vd <- evaluer(val, FD(arb))
+ |   |     op <- Operateur(racine)
+ |   |     Selon op : Faire
+ |   |      |  + : res <- vg + val
+ |   |      |  Cons(Elem(Binaire, +, -1), dg, dd)
+ |   |      |  - : res <- vg - val
+ |   |      |  Cons(Elem(Binaire, -, -1), dg, dd)
+ |   |      |  * : res <- vg * val
+ |   |      |  Cons(Elem(Binaire, *, -1), dg, dd)
+ |   |      |  / : res <- vg / val
+ |   |      |  Cons(Elem(Binaire, /, -1), dg, dd)
+ |   |      |  ...
+ |   |     Finselon
+ |  Finselon
+Fin
+
+fonction deriver(val : reel, arb : AB[Elem]) : AB
+deb
+	racine = Racine(arb)
+	selon Nature(racine) faire
+		Variable: retourne Cons(Elem(Constante, -1, 1), ConsVide(), ConsVide())
+		Constante: retourne Cons(Elem(Constante, -1, 0), ConsVide(), ConsVide())
+		Binaire:
+			dg <- deriver(FG(arb))
+			dd <- deriver(FD(arb))
+			op <- Operateur(racine)
+			Selon op faire
+				+ : retourne Cons(Elem(Binaire, +, -1), dg, dd)
+				- : retourne Cons(Elem(Binaire, -, -1), dg, dd)
+				* : retourne Cons(Elem(Binaire, +, -1), Cons(Elem(Binaire, *, -1), dg, FD(arb)), Cons(Elem(Binaire, *, -1), dd, FG(arb)))
+			fselon
+		Foncton:
+			dg <- deriver(FG(arb))
+			op <- Operateur(racine)
+			Selon op faire
+				sin : retourne Cons(Elem(Binaire, *, -1), dg, Cons(Elem(Binaire, cos, -1), FG(arb), ConsVide()))
+				cos : retourne Cons(Elem(Binaire, *, -1), dg, Cons(Elem(Binaire, sin, -1), FG(arb), ConsVide()))
+			fselon
+	fselon
+ff
+
+fonction print(arb : AB[Elem]) : chaine de caracteres
+debut
+	chaine <- ""
+	si non estVide(arb) alors
+		rac <- Racine(arb)
+		pfg <- print(FG(arb))
+		pfd <- print(FD(arb))
+		selon Nature(rac) faire
+			Variable: chaine <- "x"
+			Constante: chaine <- Valeur(racine)
+			Binaire: chaine <- "(" + pfg + Operateur(rac) + pfd + ")"
+			Fonctioin: chaine <- "(" + Operateur(rac) + "&" + pfd + ")"
+		fselon
+	fsi
+	retourner chaine
+ff
+
+fonction ch2AB(ch : chaine de caracteres, deb[entier], fin[entier]) : AB[Elem]
+debut
+	premier <- ch(deb)
+	si premier є chiffre alors  // Constante
+		fin <- deb+1
+		retourner Cons(Elem(Constante, -1, premier), ConsVide(), ConsVide())
+	fsi
+	si premier == "x" alors  // Variable
+		fin <- deb+1
+		retourner Cons(Elem(Variable, premier, -1), ConsVide(), ConsVide())
+	fsi
+	si premier == "(" alors  // Binaire
+		afg <- ch2AB(ch, deb+1, fing)  //fing sera l'indice apres le fg dans ch
+		op <- ch(fing)
+		afd <- ch2AB(ch, fing+1, find)
+		fin <- find+1
+		retourner Cons(Elem(Binaire, op, -1), afg, afd)
+	fsi
+	// Fonction
+	op <- ch[deb]
+	afg <- ch2AB(ch, deb+2, fing)
+	fin <- fing + 1
+	retourner Cons(Elem(Fonction, op, -1), afg, ConsVide())
+fin
