@@ -1,0 +1,58 @@
+1)
+CREATE TABLE Artiste (
+	Nom		VARCHAR(50)	PRIMARY KEY,
+	genre		VARCHAR(30)	NULL,
+	nationalite	VARCHAR(50)	NULL,
+)
+
+2)
+CREATE TABLE Album (
+	Titre		VARCHAR(50)	PRIMARY KEY,
+	Annee		NUMERIC(4)	DEFAULT '2004'	NOT NULL
+					CONSTRAINT chk_album_annee CHECK(annee between 1900 and 2100),
+	Artiste		VARCHAR(50),
+	FOREIGN KEY (Artiste) REFERENCES Artiste(Nom)
+)
+
+3)
+CREATE TABLE Chanson (
+	titre		VARCHAR(50),
+	album		VARCHAR(50)	NULL,
+	numero		INTEGER		NULL,
+	duree		INTEGER		NULL,
+	PRIMARY KEY (titre),
+	FOREIGN KEY (album) REFERENCES Album(titre),
+	UNIQUE (album, numero)
+)
+
+4)
+CREATE TABLE chansonsUSA AS (
+	SELECT titre, duree
+	FROM CHANSON C JOIN ALBUM A ON C.album=A.titre JOIN ARTISTE AT ON A.artiste=AT.nom
+	WHERE upper(nationalite) = 'USA'
+)
+
+5)
+CREATE VIEW vue.chansonsUSA AS (
+	SELECT titre, duree
+	FROM CHANSON C JOIN ALBUM A ON C.album=A.titre JOIN ARTISTE AT ON A.artiste=AT.nom
+	WHERE upper(nationalite) = 'USA'
+)
+
+6)
+ALTER TABLE chanson ADD COLUMN artiste VARCHAR(50) null
+||
+ALTER TABLE chanson ADD FOREIGN KEY(artiste) references Artiste(nom)
+
+7)
+UPDATE chanson
+SET artiste = (SELECT artiste
+	       FROM Album
+	       WHERE chanson.album = album.titre)
+
+8)
+ALTER TABLE chanson
+	ALTER COLUMN numero not null
+
+9)
+ALTER TABLE Artiste ADD CONSTRAINT chk_artiste_genre CHECK (genre in ('...', '...'))

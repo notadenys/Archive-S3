@@ -1,0 +1,42 @@
+1) SELECT num_prod,  nom_prod
+   FROM PRODUIT
+   WHERE prix_unit > 2
+   
+2) SELECT qte_stock
+   FROM PRODUIT
+   WHERE UPPER(nom_prod)='BOULON'
+
+3) SELECT DISTINCT num_prod
+   FROM LIGNE_COMMANDE
+   WHERE qte_com >= 10
+
+4) SELECT date_com
+   FROM COMMANDE NATURAL JOIN CIENT
+   WHERE UPPER(nom_client)='DUPONT'
+   ORDER BY date_com DESC
+
+5) SELECT DISTINCT mat_client
+   FROM COMMANDE JOIN LIGNE_COMMANDE USING(num_com) JOIN PRODUIT USING(num_prod)
+   WHERE prix_unit > 2
+   
+6) SELECT COUNT(*) AS 'nb_clients_Paris'
+   FROM CLIENT
+   WHERE UPPER(adr_client) LIKE '%PARIS%'
+   
+7) SELECT AVG(prix_unit) AS 'prix_moyen'
+   FROM PRODUIT
+   
+8) SELECT COUNT(num_com) AS 'nb_com_Nancy'
+   FROM CLIENT NJ COMMANDE
+   WHERE lower(adr_client) LIKE '%nancy%'
+   
+11) SELECT SUM(prix_unit * qte_commande) AS 'CA_Renard'
+    FROM LIGNE_COMMANDE NJ PRODUIT NJ COMMANDE NJ CLIENT
+    WHERE UPPER(nom_client) = DUPONT
+    
+12) SELECT num_prod
+    FROM PRODUIT
+    WHERE qte_stock = (SELECT MAX(qte_stock)
+    		       FROM PRODUIT)
+
+13) CREATE GLOBAL TEMPORARY TABLE TOTAL_CLI ON COMMIT PRESERVE ROWS AS 

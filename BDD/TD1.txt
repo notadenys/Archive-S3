@@ -1,0 +1,39 @@
+Exercise 1:
+1) PROJECT(RESTRICT(CLIENT, ville='Nancy' OU ville='Metz'), {nom, prenom})
+
+2) PROJECT(RESTRICT(VOYAGE, duree>3 ET prixBillet<100), {codeVoya, destination})
+
+3) R1 = RESTRICT(RESA, dateRes='12/11/2005')
+   R2 = JOIN(R1, CLIENT, R1.numCli=CLIENT.numCli)
+   RES = PROJECT(R2, {numCli, nom}
+
+4) R1 = RESTRICT(VOYAGE, destination='Nice" ET prixBillet<200)
+   R2 = JOIN(R1, RESA)  // jointure naturelle sur codeVoya
+   R3 = JOIN(R2, CLIENT)  // jointure naturelle sur codeVoya
+   Res = PROJECT(R3, {nom, prenom, email})
+
+5) R1 = PROJECT(RESTRICT(RESA, dateRes>'1/1/2000'), {numCli})
+   R1 : clients qui ne repondent pas a la question
+   R2 = PROJECT(RESA, numCli)
+   R3 = DIFF(R2, R1)
+   R4 = PROJECT(JOIN(R3,CLIENT),{....})
+
+6) R = PROJECT(RESA,{numCLi,codeVoya})
+   S = PROJECT(VOYAGE,{codeVoya})
+   Res = DIVIDE(R,S)         Res(numCli)
+
+Exercise 2:
+1) PROJECT(RESTRICT(PRODUIT, prix_unit < 2), {num_prod, nom_prod})
+
+2) PROJECT(RESTRICT(PRODUIT, nom_prod = 'Boulon'), {qte_stock})
+
+3) PROJECT(RESTRICT(LC, qte_com >= 10), {num_prod})
+
+4) R1 = RESTRICT(CLIENT, nom_cli = 'Dupont')
+     R2 = JOIN(R1, COMMANDE)
+     Res = PROJECT(R2, {date_com, num_com}
+
+5) R1 = PROJECT(PRODUIT, prix.unit >= 2)
+     R2 = JOIN(R1, LC)
+     R3 = JOIN(R2, COMMANDE)
+     Res = PROJECT(R3, {mat_client})

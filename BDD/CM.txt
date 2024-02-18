@@ -1,0 +1,73 @@
+SELECT *|{[ALL|DISTINCT]
+    expression [[AS]nomColonne]
+        [,expression [[AS] nomColonne]]… }
+FROM relation [alias] [,relation [alias] …]
+[WHERE condition]
+[GROUP BY nomColonne [,nomColonne]…]
+[HAVING condition]
+[ORDER BY nomColonne [ASC|DESC]
+		     [,nomColonne [ASC|DESC]…]
+		     
+		     
+Exemple:
+Q1
+SELECT nom, libelle, prixUnitaire
+FROM produit
+
+SELECT P.nom, P.libelle, P.prixUnitaire
+FROM produit P
+
+SELECT *
+FROM produit
+
+SELECT noProduit, prixUnitaire*1.2
+FROM produit
+
+SELECT DISTINCT fournisseurs
+FROM produit
+
+SELECT *
+FROM produit
+WHERE prixUnitaire < 20 AND noArticle > 30
+
+SELECT noClient, dateCommande
+FROM Commande
+WHERE dateCommande > ’01-JAN-04’
+
+SELECT *
+FROM Produit
+WHERE prixUnitaire >= 50 AND prixUnitaire <= 100
+
+SELECT *
+FROM Produit
+WHERE prixUnitaire BETWEEN 50 AND 100
+
+SELECT *
+FROM Produit
+WHERE prixUnitaire < 50 OR prixUnitaire > 100
+
+SELECT *
+FROM Client
+WHERE nom LIKE 'B_%B'
+LIKE recherche des chaînes de caractères correspondant à un patron où :
+% : désigne une suite de zéro à n caractères quelconques
+_ : désigne un et un seul caractère quelconque
+
+
+SELECT prénom
+FROM Client
+WHERE nom IN ('Dupond', 'Durant', 'Martin')
+
+SELECT prénom
+FROM Client
+WHERE nom NOT IN ('Dupond', 'Durant', 'Martin')
+
+SELECT *
+FROM T
+WHERE X < Y**3+Z/40
+
+SELECT *
+FROM Commande
+WHERE dateCommande = CURRENT_DATE
+
+

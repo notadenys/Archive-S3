@@ -1,0 +1,16 @@
+select DEPARTMENT_NAME
+from (select DEPARTMENT_ID, count(*) as c
+      from employees e
+      group by DEPARTMENT_ID) as di left join departments d on di.DEPARTMENT_ID = d.department_id
+where c > 30;
+
+select distinct employee_id
+from (select *
+	  from (select DEPARTMENT_ID, count(*) as c
+      		from employees e
+     		group by DEPARTMENT_ID) as di 
+     		left join departments d on di.DEPARTMENT_ID = d.department_id 
+			where c > 30) as sq
+			left join employees e2 on e2.employee_id = sq.MANAGER_id
+			
+
