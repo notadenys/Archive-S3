@@ -1,0 +1,3 @@
+/home/notadenys/Universite/Prog avance/TP1/build/CMakeFiles/main.dir
+/home/notadenys/Universite/Prog avance/TP1/build/CMakeFiles/edit_cache.dir
+/home/notadenys/Universite/Prog avance/TP1/build/CMakeFiles/rebuild_cache.dir
