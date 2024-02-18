@@ -1,0 +1,74 @@
+src
+|------	reseau
+	|------	Message.java
+	|	adresses
+		|------	Octet.java
+		|	Adresse.java
+		
+Octet octet = new Octet(68);
+System.out.println("octet est une lettre : " + octet.estUneLettre());
+Adresse adresse = new Adresse(32, 8);
+adresse.inverser();
+System.out.println("adresse = :" + adresse[toString];
+// adresese 1 = 255.0.0
+Adresse adresse2 - new Adresse("245.156.0.0");
+adresse2.getOctet(1).getValue() <= 200;
+		    .plusPetitQue(200);
+		    
+Message message = new Message(101, 110);
+message.ajouter(19)
+message.toString(); // "101.100.19" Message(int ... v)
+		    // "0.101.0.100.0.19"
+		    
+message.extrairEntier(4);
+message.extrairEntier(1); // == 101 * 2^8
+
+message.ajouter((short)19);
+	0.101.0.11.0.19.19
+	
+Message message2 = new Message(adresse2);
+Message texte = new Message("Hello World");
+message2.ajouter(texte);
+message2.extraireAdresse(4);
+
+ _________
+| Message |
+|_________|<|	 _____
+    |	    |___|Octet|
+    |	    ___>|_____|
+ ___v___   |
+|Adresse|__|
+|_______|
+
+1) Construct. principal
+	Adresse(Octet ... a);
+2) Fonctions d'observation primaires
+TEST
+	size() // getNbOctet()
+	getOctet(int k)
+3) Fonctions de modifications
+
+4) Le reste
+
+
+
+package reseau.adresse.test
+
+public class TestAdresse {
+	publuc state void main(String[] arg) {
+		tetsterConstructeurVide();
+	}
+	
+	private void testerCOnstructeurVide() {
+		Adresse adresse = new Adresse();
+		assert adresse.getNombreOctets() == 0;
+	}
+	private static void testerConstructeurQuatreOctets() {
+		Adresse adresse = new Adresse(new Octet(245), new Octet(156), new Octet(6)
+		assert adresse.getNombreOctets() == 4;
+		assert adresse.getOctet().value() == 256;
+		...
+	}
+}
+
+

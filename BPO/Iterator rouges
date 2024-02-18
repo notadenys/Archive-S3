@@ -1,0 +1,12 @@
+public Iterator<Carte> iterator()
+    {
+        ArrayList<Carte> rouges = new ArrayList<Carte>(pdc.size());
+        for (Carte c : pdc)
+        {
+            if (c.getCouleur() == Couleur.ROUGE)
+            {
+                rouges.add(c);
+            }
+        }
+        return rouges.iterator();
+    }

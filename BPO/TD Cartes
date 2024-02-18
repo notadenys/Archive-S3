@@ -1,0 +1,39 @@
+Chiffre
+PasseTonTour
+ChangementDeSens
+Plus2
+Joker
+Plus4
+
+
+if (value < 10)
+{
+	...
+} else {
+	switch (value)
+	{
+		case 10: ... break;
+		case 11: ... break;
+		case 12: ... break;
+		case 13: ... break;
+		case 14: ... break;
+	}
+}
+
+public class PasseTonTour
+	public PasseTonTour(Couleur couleur)
+	{
+		super(20, couleur);
+	}
+		
+
+	Carte carte = new PassTonTour();
+	
+	
+
+public class Chiffre
+	public Chiffre(int numero, Couleur couleur)
+	{
+		super(numero, couleur);
+		assert(...);
+	}s
