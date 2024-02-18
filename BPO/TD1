@@ -1,0 +1,101 @@
+public class C1
+{
+	private int v;
+	private String r;
+	private C3 a;
+	private C3 b;
+	private C2[] t;
+	
+	public C1(int v){}
+	
+	void f(int v; String n){}
+	
+	String toString() {return null;}	
+}
+
+Objejcts morts - objects qui ne sont pas accessibles
+C3[] t = new C3[]
+	{new C3(0);}
+t = null;
+C3 c3 = new C3();
+C3 t[] = new C3[]{e3};
+t = null;
+
+class E1
+{
+	private E1 champ;
+	private String nom;
+	private E2 e2;
+	E1(){...}
+	E1(E2 e2){...}
+	void f1(){...}
+	void f2(E3 e3){...}
+	E1 getE1(int h){...}
+}
+
+class E2
+{
+	private E1 champ1;
+	private int no;
+	private E2 champ2;
+	E2(E1 e1){...}
+	E2(E2 e2){...}
+	void f1(E1 e1){...}
+	E3 getE3(){...}
+}
+
+class E3
+{
+	private String nom;
+	E3(String n){...}
+	String get(){...}
+}
+
+class Carte
+{
+	int valeur;
+	
+	Carte(int numero, int couleur);
+	
+	int getValeur();
+	Couleur getCouleur();
+	String toString();
+	void setValeur(int valeur);
+	void setCouleur(Couleur c);
+}
+
+class PaqueteCartes
+{
+	PaquetDeCartes();
+	Carte prochaine();
+	int getNombreCartes();
+	void melanger();
+	void ajouter(Carte... cartes); --- assert cartes != null : "cartes est null";
+					   ajouter(c1, c2, c3);
+					   ajouter(new Carte[]{c1, c2, c3};
+	
+	String toString();
+	booleen etsVide();
+	int getValeur();
+}
+
+class Couleur
+{
+	JAUNE, BLEU, VERT, ROUGE
+	String nom;
+	
+	String toString();
+	Couleur(String nom);
+	String getNom();
+}
+
+Carte prochaine()
+{
+	assert ~~~ != 0 : "Paquet vide"
+}
+
+class FabriqueCartes
+{
+	FabriqueCartes()
+	PaqueteCarte getPaquetComplet();
+}
