@@ -1,0 +1,226 @@
+@startuml
+
+package cartes {
+enum Couleur {
+  + {static} BLEU: Couleur
+  + {static} ROUGE: Couleur
+  + {static} VERT: Couleur
+  + {static} JAUNE: Couleur
+  - nom: String
+
+  - Couleur(nom : String)
+
+  + String getNom()
+  + String toString()
+}
+
+abstract class Carte {
+    - src: Uno
+    - valeur: int
+    - couleur: Couleur
+
+    + Carte(src: Uno, valeur: int)
+    + Carte(src: Uno, valeur: int, couleur: Couleur)
+    + setValeur(valeur: int): void
+    + setCouleur(couleur: Couleur): void
+    + choisirCouleur(col: char): void
+    + setRandomColeur(): void
+    + getValeur(): int
+    + getCouleur(): Couleur
+    + getUno(): Uno
+    + toString(): String
+    + getAffichage(): String
+    + estSansCouleur(): boolean
+    + estDeCouleurCompatibleAvec(c: Carte): boolean
+    + abstract getNom(): String
+    + abstract peutEtreRecouvertePar(c: Carte): boolean
+    + abstract peutEtrePoseeSur(c: Chiffre): boolean
+    + abstract peutEtrePoseeSur(c: CarteAction): boolean
+    + abstract peutEtrePoseeSur(c: CarteSpeciale): boolean
+    + abstract appliquerEffet(): void
+    + abstract estSansEffet(): boolean
+}
+class Chiffre extends Carte {
+  + Chiffre(Uno src, int valeur, Couleur couleur)
+
+  + getNom(): String
+  + peutEtreRecouvertePar(Carte c): boolean
+  + peutEtrePoseeSur(Chiffre c): boolean
+  + peutEtrePoseeSur(CarteSpeciale c): boolean
+  + peutEtrePoseeSur(CarteAction c): boolean
+}
+
+abstract class CarteAction extends Carte {
+  + CarteAction(Uno src, Couleur couleur)
+
+  + peutEtreRecouvertePar(Carte c): boolean
+  + peutEtrePoseeSur(Chiffre c): boolean
+  + peutEtrePoseeSur(CarteAction c): boolean
+  + peutEtrePoseeSur(CarteSpeciale c): boolean
+}
+
+abstract class CarteSpeciale extends Carte {
+  + CarteSpeciale(Uno src, Couleur couleur)
+
+  + peutEtreRecouvertePar(Carte c): boolean
+  + peutEtrePoseeSur(Chiffre c): boolean
+  + peutEtrePoseeSur(CarteAction c): boolean
+  + peutEtrePoseeSur(CarteSpeciale c): boolean
+}
+
+class ChangementDeSens extends CarteAction {
+  + ChangementDeSens(Uno src, Couleur couleur)
+
+  + getNom(): String
+}
+
+class Plus2 extends CarteAction {
+  + Plus2(Uno src, Couleur couleur)
+
+  + getNom(): String
+}
+
+class PasseTonTour extends CarteAction {
+  + PasseTonTour(Uno src, Couleur couleur)
+
+  + getNom(): String
+}
+
+class Joker extends CarteSpeciale {
+  + Joker(Uno src, Couleur couleur)
+
+  + getNom(): String
+}
+
+class Plus4 extends CarteSpeciale {
+  + Plus4(Uno src, Couleur couleur)
+
+  + getNom(): String
+}
+
+class FabriqueCartes {
+  - {static} instance: FabriqueCartes
+
+  - FabriqueCartes()
+  + {static} getInstance(): FabriqueCartes
+  + FabriqueCartes()
+  + getPaquetUno(): PaquetDeCartes
+}
+
+class PaquetDeCartes {
+    - pdc: ArrayList<Carte>
+
+    + PaquetDeCartes()
+    + iterator(): Iterator<Carte>
+    + ajouter(cartes: Carte...): void
+    + ajouter(pdc: PaquetDeCartes): void
+    + getNombreDeCartes(): int
+    + estVide(): boolean
+    + toString(): String
+    + getAffichage(): String
+    + enlever(carte: Carte): void
+    + mettreSurTop(carte: Carte): void
+    + getSommet(): Carte
+    + getCarte(index: int): Carte
+    + piocher(): Carte
+    + melanger(): void
+    + getValeur(): int
+    + retourner(): void
+    + ecrire(nomDeFichier: String): void
+    + lire(nomDeFichier: String): void
+}
+}
+
+package jeu {
+class Uno {
+    - sens: boolean
+    - fin: boolean
+    - finJeu: boolean
+    - dlc: DLC
+    - joueurQuiJoue: int
+    - joueurQuiDistribue: int
+    - joueurs: ArrayList<Joueur>
+    - talon: PaquetDeCartes
+    - pioche: PaquetDeCartes
+
+    + Uno()
+    + jouer(): void
+    + initialiser(nbBots: int): void
+    + creerLesJoueurs(nbBots: int): void
+    + getFin(): boolean
+    + getFinJeu(): boolean
+    + handleFin(): void
+    + handleFinJeu(): void
+    + getNbJoueurs(): int
+    + getJoueurQuiDistribue(): int
+    + getJoueurCourant(): Joueur
+    + getNomDeJoueurCourant(): String
+    + getJoueurs(): ArrayList<Joueur>
+    + getTalon(): PaquetDeCartes
+    + getPioche(): PaquetDeCartes
+    + getTopCarte(): Carte
+    + choisirQuiDistribue(): void
+    + choisirQuiJoue(): void
+    + distribuerCartes(): void
+    + setDLC(d: DLC): void
+    + setFin(b: boolean): void
+    + inverserSens(): void
+    + prochainJouer(): void
+}
+
+class DLC {
+    - src: Uno
+
+    + DLC(u: Uno)
+    + reagir(): void
+    + jouer(nbbots: int): void
+}
+
+abstract class Joueur {
+    - nom: String
+    - totalScore: int
+    - main: PaquetDeCartes
+    - src: Uno
+
+    + Joueur(src: Uno, nom: String)
+    + updateTotalScore(): void
+    + piocher(): void
+    + getMain(): PaquetDeCartes
+    + getNom(): String
+    + getTotalScore(): int
+    + getUno(): Uno
+    + aMainVide(): boolean
+    + afficherTotalScore(): void
+    + abstract jouer(): void
+}
+
+class JoueurHumain extends Joueur {
+    + JoueurHumain(src: Uno, nom: String)
+    + jouer(): void
+    - piocherCarte(): void
+    - jouerCarte(): void
+}
+
+class Bot extends Joueur {
+    + Bot(src: Uno, nom: String)
+    + jouer(): void
+}
+
+class Jeu {
+    + main(args: String[]): void
+}
+}
+
+Carte -"1" Couleur
+Uno "1"-- Carte
+FabriqueCartes ..> PaquetDeCartes : "create"
+FabriqueCartes ..> Carte : "create"
+PaquetDeCartes o-"*" Carte
+DLC "1"-"1" Uno
+Uno --"2" PaquetDeCartes
+Jeu --"1" DLC
+Jeu --"1" Uno
+Uno --"1" JoueurHumain
+Uno --"*" Bot
+
+@enduml
