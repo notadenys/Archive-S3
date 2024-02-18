@@ -1,0 +1,27 @@
+@startuml
+class Lexique implements Iterable{
+private int nbMots 
+Lexique(int capacite)
+Iterator<String> iteratorList()
+Iterator<String> iterator()
+void ajouter(String mot) throws Exception
+int nbMots()
+int getCapacite()
+String toString()
+}
+
+class Livre implements Iterable{
+Livre(Lexique anglais, Lexique francais)
+Iterator<String> iterator()
+}
+
+interface Iterator<String> {
+  boolean hasNext()
+  String next()
+}
+
+Livre -- "2" Lexique
+Livre --|> Iterator
+Lexique -- "*" String
+Lexique --|> Iterator
+@enduml
