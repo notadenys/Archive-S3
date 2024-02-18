@@ -1,0 +1,1077 @@
+Convention à adopter :
+- les mots-clefs seront écrits en gras ( procédure , début , si , pour , fin , etc... )
+- les commentaires seront en italique (// commentaire )
+- il faudra préciser le type d'accès des paramètres : ↓ , ↑ , ↕
+astuces :
+§ Ctrl + B (mettre en gras)
+§ Ctrl + U (mettre en surlignage)
+§ Ctrl + I (mettre en italique)
+
+Exemple :
+
+procédure swap ( ↕ tab : tableau entier[N], ↓ N : entier, ↓ i : entier, ↓ j : entier)
+début 
+            temp ← onglet[i]
+            onglet[ i] ← onglet[j]
+            tabulation[ j] ← temp 
+ailette
+___________________________________________________________________________________________
+1) Séance 1 du 4 septembre 2022
+Contributeurs : COINCE Gabriel
+
+
+Algorithme et programmation 3
+Par COINCE Gabriel L2
+
+    Informations rentrés :
+
+
+horatiu.Cirstea@univ-lorraine.fr
+
+Première séance de 3H = tp noté 
+
+syntaxe identique à L1 :
+
+Fonction noms(type : variable) 
+        début
+        ...
+        fin 
+
+PAS OUBLIER DE METTRE UNE FLÈCHE VERS LE HAUT QUAND LA VARIABLES EST EN SORTIE ET VERS LE BAS EN ENTRÉE !!!!! dans la définition de la fonction
+
+
+CHAPITRE 1 : COMPLEXITE ALGORITHMIQUE 
+int tab[3] = { 1, 2, 3 };
+int tab[] = { 1, 2, 3 };
+
+Fonction somme (↓tab :tableau[n], ↓n:entier)entier
+        somme<-0   <=== complexité = 1
+        for i in range(0,n-1):  <===complexité = intérieur de la boucle* nombre de boucle +1 (car apparition) =N*1+1
+                somme+=tableau[i]
+        return somme <=== compte pas
+
+TOTAL : 1+(N*1+1)=N+2
+
+Il est donc en complexité N+3 notée complexité asymptotique C(N+3) 
+
+Dans le cas d’un si on doit étudier la complexité dans le pire des cas (ici un tableau en ordre croissant) par convention. 
+
+max=tab[0]
+pour i allant de 1 à n:
+        SI tab[i]>max: <== complexité de max(Coup vrai, Coup faux du sinon) +1 
+                max=tab[i]
+        SINON
+                ...
+        fin si
+fin pour
+                
+Ordre de complexité :
+Soit un tableau à N cases,
+plus performant => moins performant
+O(1)=>O(logN)=>O(N)=>O(NlogN)=>O(N²)=>O(expN)
+
+
+PRISE DE NOTES DU 05/09 :
+
+Exemples :
+Dans un de nos programmes on a une complexité en 2N+1 on la classe dans la catégorie des O(N) pour savoir son temps d’exécution.
+
+Dans un autre nous sommes en 2N²+3N+2 on la classe donc dans O(N²).
+
+Il est donc intéressant de classer nos algorithmes pour voir le temps d’exécution estimé pour essayé d’optimisé.
+
+Ordre pour déterminer la complexité d’un algorithme :
+
+1. Définir la taille du problème
+2. On regarde la complexité dans le pire des cas
+3. On calcule son coup C(f) = … (ex : 2N+1)
+4. On le classe dans sa catégorie (ex : O(N) car le plus grand dans 2N+1)
+5. L’expliqué en disant qu’il existe un n0 et un k tel que pour N>N0 2N+1<K*N
+
+Exemple :
+
+Dans 2N+1 le K vaut 3 car on prend la valeur devant le N et on en prend un majorant (ici 2)
+Pour trouver le N0 on écris donc 3N>2N+1 puis on résous => N>1 donc on prend tout N0>1
+
+Exercice :
+
+fonction getPositif (↓tableau tab[n], ↓n entier)booléen
+        i<-0 <==Complexité de 1
+        tant que tab[i]<n-1 <==Complexité 2N+1
+                Si tab[i]<0
+                        Renvoi False ⇐ On compte pas les renvois
+                FinSI
+                i<-i+1 <==Complexité de 1
+        FinTantque
+        Renvoi True
+FinFonction
+
+Dans cette exemple le pire des cas est un tableau de positif.
+Le total serait de C(f)= 2N+2 => O(n) or il existe un N0>N tel que 2N+2<K*N 
+Soit k=3 car 3N>2N+2 puis on résous => N>2 donc on choisi un N0>2 comme N0=3 
+
+PAR CHOIX DU PROF IL FAUT ÉVITER LES RETOURNER DANS LE PROGRAMME IL VEUT QU’ON L’UTILISE UNE FOIS A LA FIN DU CODE => AJOUTER DES VARIABLES INTERMÉDIAIRES 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Algorithme de tri par sélection :
+
+Dans le cas du tableau [3,5,2] on se met sur le 3 est on cherche le minimum ici le 2 puis on échange les valeurs [2,5,3] puis on avance d’une case donc sur le 5 puis on cherche le minimum ici 3 et on obtient [2,3,5].
+
+Procédure sélection (↓tab :tableau entiers[N], ↓N:entier)
+Début
+        pour i de 0 à N-2 faire
+                posMin←i <===Complexité de 1
+                pour j de i-1 à N-1 faire <===Complexité plus compliqué voir X
+                        si tab[j]<tab[posMin] alors <===Complexité de 2
+                                posMin←j <===Complexité de 1 
+                        FinSi
+                FinPour
+                swap(tab[i],tab[posMin]) <===Complexité de 3
+        swap
+Fin 
+
+
+Calculons sa complexité :
+
+Le pire des cas est un tableau décroissant 
+
+X :
+[
+Quand i vaut         0 = (N-1)*2 +1(POSMIN) +3(SWAP)
+                1= (N-2)*2+4
+                N-3=2*2+4
+                N-2=1*2+4
+
+C(N)=(1+2+...+(N-1))+2+(N-1)*4
+        =(N-1)N+(N-1)*4=N²+4N-4
+
+Formule de la somme des entier de 1 à N :  (n(n+1) )/2
+]
+On a donc C(f)=N²+3N-3   donc il est dans la catégorie O( N²) car il existe un N>N0 tel que N²+3N-3<K*N avec K= 2 et on résous 2N²>N²+3N-3 on as donc N0>2 prenons N0=3
+
+Algorithme de recherche par dichotomie : 
+
+On coupe le tableau en 2 et on regarde si notre valeur est dans la partie inf ou sup et on fais sa jusqu’à la trouvé ou non ( et on renvoi  sa position ou -1 si elle est pas la)
+
+fonction chercher(↓tab:tableau entier[N],↓ N:entier, val:entier)entier
+début
+        deb←0 <===Complexité de 1
+        fin←N-1 <===Complexité de 1
+        pos← -1 <===Complexité de 1
+        tant que deb<= fin et pos=-1 faire <===Complexité de X
+                mil←(deb+fin)/2 <===Complexité de 1
+                si tab[mil]=val alors <===Complexité de max(1,2)+1=3
+                        pos←mil <===Complexité de 1
+                finSi
+                si tab[mil]<val alors <===Complexité de max(1,1)+1 =2
+                        deb←mil+1 <===Complexité de 1
+                Sinon
+                        fin←mil-1 <===Complexité de 1
+                finSi
+        finTantQue
+        renvoi pos
+fin
+
+X : L’intérieur de la boucle tant que coute 5 comptons le nombre de fois que l’on peut le coupé en 2
+
+N=>N/2=>(coupons le encore en 2) N/2=>….=> 2 cases restante/2=>1 
+Nombre d’opération appeler y donc N=2^Y*1
+
+2^Y=N
+log(2^Y)=log(N)
+Y=log(N)
+
+CONCLUSION :
+
+On fais log(N) itération avec un coup de 4 => C(n)=4log(N)+3(le coup des 3 avant)+1(le coup du pour)
+
+Donc il est en O(log(N)) car il existe un N>N0 tel que 4log(N)+4<K*N avec K= 5 on a 5log(N)>4log(N)+4 et la suite du calcul est plus compliqué 
+
+Cours du 12/09/2023
+
+Pseudo test :
+
+
+procedure print(N:entier)
+debut
+        i←1<===Complexité de 1
+        tant que i<=N faire <===Complexité de 2N+1
+                afficher(i)<===Complexité de 1
+                i←1+i<===Complexité de 1
+        finTantque
+fin
+
+//////
+procedure print(N:entier)  //Puissance de 2
+debut
+        i←1<===Complexité de 1
+        tant que i<=N faire <===Complexité de (LOG N)+1 car on peut X
+                afficher(i)<===Complexité de 1
+                i←1*2<===Complexité de 1
+        finTantque
+fin
+
+X faire 2^x fois i pour arrivé a N donc 2^(x)=N puis on utilise le log pour trouver X
+
+jusitifcation
+
+On doit trouver un K et un N0 tel qu’il existe N>N0 tel que 2+2logN<K*logN Donc K=3 et N0=5
+
+////////
+
+
+
+procedure foo(tab:tableau entiers[N], N:entier)
+début
+        pour i de 0 à N-1 faire <===Complexité de N²+N+1
+                pour j allant de 0 à N-1 faire <===Complexité de N+1
+                        tab[i]←tab[i]+tab[j] <===Complexité de 1
+                fin pour
+        fin pour
+fin
+
+C(N)=N²+N+1 donc O(N²)
+
+
+/////////
+
+procedure foo(tab:tableau entiers[N], N:entier)
+début
+        pour i de 0 à N-1 faire <===Complexité de 
+                pour j allant de i+1 à N-1 faire <===Complexité de N+1
+                        tab[i]←tab[i]+tab[j] <===Complexité de 1
+                fin pour
+        fin pour
+fin
+
+C(N)=N²+N+1 donc O(N²)
+
+//////////
+
+fonction fact(N:entier):entier
+debut
+        res<-1<===Complexité de 1
+        pour i de 1 à N faire <===Complexité de N+1
+                res←res*i<===Complexité de 1
+        fpour
+        retourner res
+fin
+
+C(N)=N+2 0(N)
+
+OU EN RECURSIF
+
+fonction fact(N:entier):entier
+debut
+        res←1
+        Si N=0 alors
+                res<-1
+        sinon //N!=0
+                res<-fact(N-1)*N
+        finsi
+        retourner res
+fin
+
+C(N)=2N donc O(N)
+
+FIN du mini examen, on va faire des algorithmes récursifs
+
+
+
+Chapitre 2 : Récursivité
+
+
+
+procedure print(deb:entier, fin:entier)
+debut
+        SI deb=fin alors
+                afficher(deb)
+        SINON //deb!=fin
+                print(deb,fin-1)        
+                afficher(fin)
+        fin 
+fin 
+
+/////
+
+
+fonction sommeAuxiliaire(tab : tableau entier[N], N:entier, G:entier) :entier
+début
+        res←...
+        SI ...        ALORS
+                ...
+        SINON
+                ….
+        FINSI
+        retourner res
+fin
+
+fonction somme(tab : tableau entier[N], N : entier): entier
+début
+
+    retourner sommeAuxiliaire(tab, N, 0) : entier
+
+fin
+
+On doit rajouté un paramètre car en c on a pas le droit de changer la taille du tableau N
+
+Cours du 19/09/2023
+
+La voici codée d’une autre façon
+
+fonction sommebis(tab : tableau entier[N], N:entier, G:entier) :entier
+début
+        res<-0
+        SI G=0        ALORS
+                res<-tab[0]
+        SINON
+                res←tab[G]+sommebis(tab,N,G-1)
+        FINSI
+        retourner res
+fin
+
+fonction somme( tab : tableau entier[N], N:entier):entier
+début
+        renvoyer sommebis(tab, N, N-1) ;
+fin
+
+//Fonction qui calcule le produit u*p
+
+
+fonction produit (n:entier;p:entier):entier
+début 
+        multi←0
+        Si p=0 faire 
+                multi←0
+        Sinon
+                multi←n+produit(n,p-1)
+        FinSi
+        renvoyer multi
+fin
+
+//Fonction puissance 
+fonction power(n:entier;p:entier):entier
+début 
+        multi←0
+        Si p=0 faire 
+                multi←1
+        Sinon
+                multi←n*produit(n,p-1)
+        FinSi
+        renvoyer multi
+fin
+
+//Fonction maxi récursifs
+
+fonction maxiBis(tab : tableau entier[N], N:entier,Maxi:entier,pos:entier):entier
+début
+        Si pos=1 faire
+                Maxi← tab[0]
+        Sinon
+                Si tab[pos]>Maxi
+                        maxiBis(tab,N,tab[pos],pos-1)
+                Sinon
+                        maxiBis(tab,N,Maxi,pos-1)
+                Finsi
+        FinSi
+        renvoyer Maxi
+fin
+
+fonction maxi(tab : tableau entier[N], N:entier):entier
+début
+        renvoyer fonction maxiBis(tab,N, tab[0],N-1)
+fin
+        
+
+/* si N = 2 , paramettre de la fonction maxi ; alors on renvoie maxiBis(tab,N,tab[0],N-1 = 1)
+du coup dans la fonction maxiBis la premiere condition sera vérifsiée et Maxi sera egale a tab[0] et on renvoie Maxi = tab[0] .  ce qui est faux si tab[1] > tab[0] .
+Aussi dans les "Sinon" on appelle la fonction maxiBis comme si c'etait de type void
+??? */
+
+
+
+
+
+
+
+
+//Procédure qui inverse un tableau
+
+procédure inverserBis(tab:tableau entier[N], N:entier, fin:entier, deb:entier)
+début
+        Si deb<fin
+                temp←tab[deb]
+                tab[deb]←tab[fin]
+                tab[fin]←temp
+                inverserBis(tab,N,fin-1,deb+1)
+        FinSI
+fin
+
+procédure inverser(tab : tableau entier[N], N:entier):entier
+début
+        procédure inverserBis(tab,N, tab[0],N-1,0)
+fin
+
+ET EN ITERATIF
+
+procédure inverser(tab : tableau entier[N], N:entier):entier
+début
+        pour i allant de 0 à (N-1)/2 faire
+                temp←tab[i]
+                tab[N-1-i]←tab[i]
+                tab[i]←temp
+        finpour
+fin
+
+Notation possible d’un calcul sous forme de notation préfix
+
+((3+2)*(4+5))=* + 3 2 + 4 5
+
+procédure infix2prefix(exp : tableau caracteres[N], N:entier, deb:entier, pre:tableau caractere [M], fin:entier)
+début
+        Si exp[deb]=0 ou exp=1 ou … exp=9 alors
+                pre←exp[deb]
+                fin<-deb
+        Sinon //exp[deb]=’(‘
+                inf2prefix(exp,N,deb+1,op1,fin1)
+                oper←exp[fin+1]
+                inf2prefix(exp,N,fin1+2, op2, fin2)
+                pre←oper+op1+op2
+                fin<-fin2+1
+        finSi
+fin 
+
+Cours du 26/09/2023
+
+Type abstrait Liste [E]
+
+Opérations :
+        ConsVide ->ListeVide[E]
+        Cons ->Liste[e]
+        EstVide ->bool
+        Tete Liste[e]->E
+        Reste Liste[E]→Liste[e]
+
+Axiomes :
+        EstVide(ConsVide())=Vrai
+        EstVide(Cons(e,L)))=Faux
+        Tete(Cons(e,L))=e
+        Reste(cons(e,L))=L
+
+Pré conditions :
+        Tete(L) existe que si L non vide
+        De même pour reste
+
+Nous allons maintenant faire des algorithmes sur les listes définis au dessus
+
+fonction somme (Liste[entier]):entier
+début        
+        s←0
+        tant que non EstVide(L) faire
+                s←s+Tete(L)
+                L←Reste(L)
+        fintantque
+        renvoi s
+fin
+
+fonction sommeR (Liste[entier]):entier
+début        
+        s←0
+        Si EstVide(L) faire
+                s← 0
+        Sinon
+                s=Tete[L]+sommeR(reste(L))
+        FinSI
+        renvoi s
+fin
+
+fonction rechercher (Liste[entier],val:entier):bool
+début        
+        trouve<-0
+        tant que non EstVide(L) et non trouve faire
+                Si Tete[L]==val
+                        trouve←1
+                finSi
+                L←Reste(L)
+        fintantque
+        renvoi trouve
+fin
+---------------------------------------------------------------------------------------
+Déclaration :
+procédure ModifTete(val:E, L:liste[e])
+procédure ModifReste(nl;liste{e],L:Liste[e])
+
+----------------------------------------------------------------
+procédure incrementer(L:liste[entier])
+début
+        temp<-L
+        tant que non estVide(temp) faire
+                ModifTete(Tete(temp)+1,temp)
+                temp<-Reste(Temp)
+        fintq
+fin
+
+procédure incrementerR( L:liste[e])
+début
+        si  non estVide(L) alors
+                ModifTete(Tete(L)+1,L)
+                temp←Reste(L)
+                incrementer(temp)
+                ModifReste(temp,L)
+        finsi
+fin
+
+Implémentation :
+
+typedef struct s_node{
+        int tete ;
+        struct s_node* reste ;
+}s_node_t ;
+
+s_node_t* cons(int v, s_node_t*l){
+        s_node_t* res=malloc (sizeof(s_node_t))
+        res->tete=val ;
+        res->reste=l ;
+        return res
+        
+}
+
+03/10/2023
+
+Type : Pile[E]/Stack[E]/LIFO
+Opérateur :
+        ConsVide : -→Pile[E]
+        Empiler: E-→Pile[E]
+        Depiler : Pile[E]-→Pile[E]
+        Sommet : Pile[E]-→E
+        EstVide : Pile[E]-→bool
+Axiomes :
+        estVide(ConsVide())=vrai
+        estVide(empiler(e,p))=faux
+        Sommet(Empiler(e,p))=e
+        depiler(empiler(e,p))=p
+Pré-conditions :
+        sommet(p) défini uniquement si P non vide
+
+Type : File[E]/Stack[E]/FIFO
+Opérateur :
+        ConsVide : -→File[E]
+        Enfiler: E-→File[E]
+        Defiler : File[E]-→File[E]
+        Tete : File[E]-→E
+        EstVide : File[E]-→bool
+Axiomes :
+        estVide(ConsVide())=vrai
+        estVide(enfiler(e,f))=faux
+        Tete(Enfiler(e,f))=e si f vide
+                         =Tete(f)
+        defiler(enfiler(e,f))=enfiler(e,defiler(p)) si f non vide
+Pré-conditions :
+        sommet(p) défini uniquement si P non vide
+
+Type : Arbre[E]
+Opérateur :
+        ConsVide : -→Arbre[E]
+        Cons : Arbre[E]XArbre[E]-→Arbre[E]
+        Racine : Arbre[E]-→ E
+        FG : Arbre[E]-→Arbre[E]
+        FD : Arbre[E]-→Arbre[E]
+        estVide:Arbre[E]-→booleen
+Axiomes :
+        estVide(consVide())=vrai
+        estVide(cons(e,fg,fd))=faux
+        Racine(Cons(e,fg,fd))=e
+        FG(cons(e,fg,fd))=fg
+        FD(cons(e,fg,fd))=fd
+Fonctions sur les arbres :
+
+fonction somme (arb : Arbre[entier]):entier
+début
+        Si estVide(arb) faire
+                return 0
+        Sinon faire
+                return racine(arb)+somme(FG(arb))+somme(FD(arb))
+        FinSinon
+fin
+
+fonction taille (arb : Arbre[entier]):entier
+début
+        Si estVide(arb) faire
+                return 0
+        Sinon faire
+                return 1+taille(FG(arb))+taille(FD(arb))
+        FinSinon
+fin
+
+fonction maximum (arb : Arbre[entier]):entier
+début
+        Si !estVide(arb) faire
+                return max(maximum(FG(arb)),maximum(FD(arb)),racine(arb))
+        FinSi
+        return infini//
+fin
+
+La hauteur d’un arbre est le chemin le plus long entre la racine et la feuille la plus basse. On commence à partir de 1 (0 Si on compte les arbres vides en dessous)
+
+fonction hauteur(arb : Arbre[entier]):entier
+début
+        Si estVide(arb) faire
+                return 0
+        Sinon faire
+                return 1+max(hauteur(FG(arb))), (hauteur(FD(arb)))
+        FinSinon
+fin
+
+fonction nbFeuille(arb : Arbre[entier]):entier
+début
+        Si estVide(FG(arb)) && estVide(FD(arb)) faire
+                return 1
+        Sinon Si  estVide(FG(arb)) && !estVide(FD(arb)) faire
+                return 1+nbFeuille(FD(arb))
+        Sinon !estVide(FG(arb)) && estVide(FD(arb)) faire
+                return 1+nbFeuille(FG(arb))
+        Sinon
+                return nbFeuille(FG(arb))+nbFeuille(Fd(arb))
+        FinSinon
+fin
+
+Cours du 10/10/2023 :
+
+Aujourd’hui on va faire d’autres fonctions sur les arbres.
+
+Fonction chercher(arb:Arbre[entier], val:entier):booleen
+début
+        Si estVide(arb)
+                return 0
+        Sinon Si racine(arb)=val
+                return 1
+        Sinon Si estVide(FG(arb)) && estVide(FD(arb)) faire
+                return 0
+        Sinon Si  estVide(FG(arb)) && !estVide(FD(arb)) faire
+                return chercher(FD(arb),val)
+        Sinon !estVide(FG(arb)) && estVide(FD(arb)) faire
+                return chercher(FG(arb), val)
+        FinSinon
+fin
+
+fonction estComplet(arb:Arbre[entier]):booleen
+début
+        Si estVide(arb)
+                return 1
+        Sinon Si  estVide(FG(arb)) && !estVide(FD(arb)) faire
+                return 0
+        Sinon !estVide(FG(arb)) && estVide(FD(arb)) faire
+                return 0
+        Sinon !estVide(FG(arb)) && !estVide(FD(arb)) faire
+                return estComplet(FG(arb)) ET estComplet(FD(arb)) ET hauteur(FG(arb))=hauteur(FD(arb))
+        FinSinon
+fin
+
+Pour économiser de la mémoire on peut fusionner la fonction estComplet et hauteur qui font tout les 2 un parcours de l’arbre. Donc autant le faire en même temps que le faire 2 fois.
+
+procédure print(arb:Arbre[E])
+début
+        Si!EstVide(arb) alors
+                afficher(Racine(arb)
+                print(FG(arb))
+                print(FD(arb))
+        finSi
+fin
+
+Si on switch la ligne afficher racine par rapport au printFG et printFD on a 3 cas :
+-Parcours Prefixe (afficher en 1er)
+-Parcours infixe (afficher en 2eme)
+-Parcours suffixe (afficher en 3eme)
+
+procédure incrementer(arb:Arbre[E])
+début
+        Si !estVide(arb)
+                ModifRacine(arb,racine(arb)+1)
+                FG<-Fg(arb)
+                incrementer(FG)
+                 ModifFG(arb,FG)
+                FD<-FD(arb)
+                incrementer(FD)
+                ModifFD(arb,FD)
+        FinSinon
+fin
+
+Cours du 17/10/2023 :
+
+
+Aujourd’hui nous allons utilisé un Arbre Binaire de Recherche (On met un élément dans le nœud, les éléments plus petits a Gauche et les plus grand à Droite).
+
+Fonction chercherABR(arb:Arbre[entier], val:entier):booleen
+début
+        Si estVide(arb)
+                return 0
+        Sinon Si racine(arb)=val
+                return 1
+        Sinon Si estVide(FG(arb)) && estVide(FD(arb)) faire
+                return 0
+        Sinon :
+                Si val>racine(arb)
+                        res←ChercherABR(FD(arb))
+                Sinon
+                        res←ChercherABR(FG(arb))
+                return res ;
+        FinSinon
+fin 
+
+Fonction chercherIterabr(arb[entier] ,val:entier]:bool
+début
+        tant que non estVide(arb)
+                Si racine(arb)=val alors
+                        return vrai
+                Sinon Si val>racine(arb) alors
+                        arb=FD(arb)
+                Sinon 
+                        arb=FG(arb)
+                FinSi
+        FinTq
+        return faux
+fin
+
+Complexité de l’ordre de O(H) avec H la hauteur de l’arbre 
+
+Fonction MinABR(arb:Arbre[entier]):Entier
+début
+        Si !estVide(arb)
+                Si estVide(FG(arb)) faire
+                        return racine(arb) ;
+                Sinon :
+                        MinABR(FG(arb)) ;
+                FinSinon
+        FinSi
+fin
+              -
+procedure inserer(arb : ABR[entier],val:entier)
+debut
+        Si EstVide(arb) faire
+                arb←Cons(val,consVide(),consVide())
+        Sinon
+                Si val>racine(arb)Finsere faire
+                        inserer(FD(arb),val)
+                Sinon
+                        inserer(FG(arb),val)
+                FinSinon
+        FinSinon
+fin
+
+Cours du 24/10/2023 :
+
+procedure supprimer(arb : ABR[entier], val:entier)
+debut
+        si non estVide(arb) alors
+                Si Racine(arb)> val alors
+                        suppirmer(FG(arb),val)
+                Sinon Si Racine(arb)<val alors
+                        suppirmer(FD(arb),val)
+                Sinon Si Racine(arb)=val alors
+                        Si estVide(FG(arb)) et EstVide(FD(arb)) alors
+                                Liberer(arb) //Libere la mémoire
+                        Sinon
+                                Si estVide(FG(arb)) alors
+                                        temp←arb
+                                        arb←FD(arb)
+                                        ModifFD(temp, Consvide())
+                                        Liberer(temp)
+                                Sinon SI estVide(FD(arb)) alors
+                                        temp←arb
+                                        arb←FG(arb)
+                                        Modif(temp, Consvide())
+                                        Liberer(temp)
+                                Sinon
+                                        fg<-FG(arb)
+                                        temp←arb
+                                        max←SupprimerMax(fg)
+                                        ModifRacine(arb,max)
+                                        ModifFG(arb,fg)
+                                FinSI
+                        FinSi
+
+                    FinSi
+
+        Fin SI
+fin
+fonction supprimerMax(arb:ABR[entier]):entier
+début
+        si estVide(FD(arb)) alors 
+                max<-Racine(arb)
+                arb← FG(arb)
+        sinon
+                max<-supprimerMax(FD(arb))
+                ModifFD(arb, FD(arb))
+        FinSi
+        retourner max
+fin
+
+AVL= ARB remplis entièrement
+
+procedure inserer(arb : AVL[entier],val:entier)
+debut
+        Si EstVide(arb) faire
+                arb←Cons(val,consVide(),consVide())
+        Sinon
+                Si val>racine(arb) faire
+                        inserer(FD(arb),val)
+                Sinon
+                        inserer(FG(arb),val)
+                FinSinon
+                fe←hauteur(FG(arb))-hauteur(FD(arb))
+                //A FINIR
+        FinSin
+fin 
+Cours du 07/11 :
+
+AVL : Comme un ABR mais la hauteur FG – hauteur FD <=1 et de même pour le FD 
+
+Si le FD à une hauteur trop grande comparé au FG on décalle pour équilibrer comme sur une balance
+Voici le code pour la rotation droite
+
+procedure rotationDroite(arb:ABR)
+debut
+        fg←FG(arb)
+        ModifFG(arb,FD(fg))
+        ModifFD(fg,arb)
+        arb<-fg
+fin
+
+procedure rotationGauche(arb:ABR)
+
+    debut
+
+        fd←FD(arb)
+        ModifFD(arb,FG(fd))
+        ModifFG(fd,arb)
+        arb<-fd
+fin
+
+Complexité en O(1) temps constant
+
+Suite du inserer de la séance dernière 
+
+
+
+procedure inserer(arb : AVL[entier],val:entier)
+debut
+        Si EstVide(arb) faire
+                arb←Cons(val,consVide(),consVide())
+        Sinon
+                Si val>racine(arb) faire
+                        inserer(FD(arb),val)
+                Sinon
+                        inserer(FG(arb),val)
+                FinSinon
+                fe←hauteur(FG(arb))-hauteur(FD(arb))
+                Si fe>1 et val<=Racine(FG(arb)) faire
+                        rotationDroite(arb)
+                Si fe>1 et val>Racine(FG(arb)) faire
+                        fg<-FG(arb)
+                        rotationGauche(fg)
+                        ModifFG(arb,fg)
+                        rotationDroite(arb)
+                Si fe< -1 val>=Racine(FG(arb)) faire
+                        rotationGauche(arb)
+                Si fe< -1 val<Racine(FG(arb)) faire
+                        fd<-FD(arb)              
+                        rotationDroite(fd)
+                        ModifFD(arb,fd)
+                        rotationGauche(arb)
+                FinSi
+        FinSinon
+fin
+
+Pour un ABR on est en O(h) et on est egalement O(h) pour un AVL sauf que H vaut le nombre de nœuds dans ABR et log(nombre de nœud) dans un AVL
+
+On va maintenant voir les TAS.
+
+Il faut que chaque nœud soit la valeur la plus petite/grande de ses FG et FD (celon si on trie en croissant ou décroissant)
+Il faut qu’il soit complet a chaque étage sauf au dernier 
+On doit le completer de la gauche vers la droite  
+
+On va implementer ces TAS avec un tableau (car ils sont casi complet)
+
+Racine = arb[0]
+FG=2*position+1
+FD=2*position+2
+parent=(i-1)/2 (division entière pas décimal)
+Nombre de nœud entre (2^H-1)<N<(2^H)-1
+Les feuilles commencent à N/2
+
+procedure arbre2tab(arb:Arbre[e], tab, pos)
+debut
+        Si non EstVide(arb) alors
+                tab[pos]←Racine(arb)
+                arb2tab(FG(arb),tab,2*pos+1)
+                arb2tab(FD(arb),tab,2*pos+2)
+        FinSi
+fin
+
+Un tas contient un tableau + la position ou il commence
+
+fonction tab2arb(tab,pos):arbre 
+debut
+        arb<-ConsVide()
+        Si taille(tab)>pos
+                racine←tab[pos]
+                fg←tab2arb(tab,2*pos+1)
+                fd←tab2arb(tab,2*pos+2)
+                arb←Cons(racine,fg,fd)
+        FinSI
+        retourner arb ;
+fin
+
+cours du 14/11/2023 :
+
+fonction min (tas : tableau d’entiers[N], N:entier, taille:entier):entier
+début
+        retourner tas[0]
+fin
+
+fonction supprimerMin (tas : tableau d’entiers[N], taille:entier):entier
+début
+        min<- tas[0]
+        tas[0]←tas[taille-1]
+        taille←taille-1
+        swapDown(tas,N,taille,0)
+        return min ;
+fin
+
+fonction swapDown(tas,taille,pos)
+debut
+        si pos< taille/2 alors
+                fg←2*pos+1
+                fd←2*pos+2
+        si fd<taille alors
+                si tas[fg]<tas[fd] alors
+                        posMin←fg
+                sinon
+                        posMin←fd
+                finSi
+                si tas[pos]>tas[posMin] alors
+                        swap(tas[pos],tas[posMin])
+                        swapDown(tas,taille,posMin)
+                finSi
+        finsi        
+fin 
+
+procedure inserer(tas, taille ,val)
+debut
+        tas[taille]←val
+        taille←taille+1
+        shiftUp(tas,taille,taille-1)
+fin
+
+
+
+fonction shiftUp(tas,taille,pos)
+debut
+        si pos!=0
+                parent ←(pos-1)/2
+                si tas[parent]>tas[pos]
+                        swap(tab[pos],tab[parent])
+                        shiftUp(tas,taille,parent)
+                finsi
+        finsi        
+fin 
+
+
+
+procedure tab2tas(tab,n)
+debut
+        pour i decroissant de N/2-1 à 0 faire
+                swapDown(tab,n,i)
+        fpour
+fin
+
+
+Cours du 05/12/2023 :
+
+procédure couper(arb : ABR[entier],val:entier, inf:ABR[entier],supABR[entier])
+debut
+        si EstVide(arb) alors
+                inf←ConsVide()
+                sup←ConsVide()
+        finSi
+        Sinon
+                si val<Racine(arb) alors 
+                        couper(FG(arb),val,ginf,gsup)
+                        inf←ginf
+                        sup←arb
+                        MofifFG(sup,gsup)
+                sinon 
+                        couper(FD(arb),val,dinf,dsup)
+                        sup←dsup
+                        inf<-arb
+                        MofifFD(inf,dinf)
+                finSi
+        FinSi
+fin
+
+procedure inserer(arb : ABR[entier],val:entier)
+debut
+        if (arb==null) faire
+                arb←Cons(val,consvide() ,consvide())
+        sinon
+                couper(arb,val,inf,sup)
+                arb←Cons(val,inf,sup)
+fin
+
+procedure quickSort(tab:tableau d’entier[n], N : entier,deb:entier,fin:entier)
+debut
+        pivot<-partager(tab,N,deb,fin)
+        quickSort(tab,N,deb, pivot)
+        quickSort(tab,N,pivot+1,fin)
+fin
+
+fonction partager(tab : tableau, N:entier , deb:entier, fin:entier)
+debut
+        pivot←tab[deb]
+        gauche←deb-1
+        droite←fin+1
+        tant que gauche<droite faire
+                gauche←gauche+1
+                tant que pivot>tab[gauche] faire
+                        gauche←gauche+1
+                fintq
+                droite←droite-1
+                tant que pivot<tab[droite] faire
+                        droite<-droite-1
+                fintq
+                si gauche<droite alors
+                        temp←gauche
+                        gauche<-droite
+                        droite←temp
+                finSi
+        fintq
+        retourner droite
+fin
+
+
+procedure bubbleSort(tab:tableau, N:entier)
+debut
+        pour i de 1 à N-1 
+                pour j de 0 à N-i-1
+                        Si tab[j]>tab[j+1]
+                                temp←tab[j]
+                                tab[j]<-tab[j+1]
+                                tab[j+1]←temp
+                        finSi
+                finPour
+        finPour
+fin²
